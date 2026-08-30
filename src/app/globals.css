@@ -1,0 +1,333 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/* Base                                                                */
+/* ------------------------------------------------------------------ */
+html,
+body {
+  background: #f4f4fb;
+  color: #0d0f1a;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  font-feature-settings: "cv11", "ss01", "ss03";
+}
+
+/* Lock viewport zoom on mobile (project requirement). */
+@viewport {
+  user-zoom: fixed;
+  zoom: 1;
+  max-zoom: 1;
+  min-zoom: 1;
+}
+
+/* ------------------------------------------------------------------ */
+/* Bidi handling: keep technical Latin content (repo paths, SHAs,     */
+/* usernames, URLs) left-to-right even inside an RTL document.        */
+/* ------------------------------------------------------------------ */
+.ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.font-mono {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* ------------------------------------------------------------------ */
+/* Disable default tap highlight + text selection on interactive bits  */
+/* ------------------------------------------------------------------ */
+button,
+[role="button"],
+a,
+input[type="button"],
+input[type="submit"],
+input[type="reset"],
+.no-tap,
+.no-select {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+button,
+[role="button"],
+.no-select {
+  user-select: none;
+}
+
+/* But keep selection on the things users actually need to copy.      */
+.allow-select,
+.allow-select * {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* ------------------------------------------------------------------ */
+/* Focus rings — keep accessible, not the browser default             */
+/* ------------------------------------------------------------------ */
+:focus {
+  outline: none;
+}
+:focus-visible {
+  outline: 2px solid #5b56e8;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Custom press effect: subtle, replaces the default blue ripple       */
+/* ------------------------------------------------------------------ */
+.press {
+  transition: transform 120ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    background-color 120ms ease, color 120ms ease, border-color 120ms ease,
+    opacity 120ms ease, box-shadow 120ms ease;
+  will-change: transform;
+}
+.press:active:not(:disabled):not([aria-disabled="true"]) {
+  transform: scale(0.97);
+  opacity: 0.92;
+}
+.press:disabled,
+.press[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------ */
+/* Inputs                                                              */
+/* ------------------------------------------------------------------ */
+.input {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #d3d5e6;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #0d0f1a;
+  transition: border-color 120ms ease, box-shadow 120ms ease;
+}
+.input::placeholder {
+  color: #a7abc4;
+}
+.input:hover:not(:disabled) {
+  border-color: #a7abc4;
+}
+.input:focus {
+  border-color: #5b56e8;
+  box-shadow: 0 0 0 3px rgba(91, 86, 232, 0.16);
+  outline: none;
+}
+.input:disabled {
+  background: #f4f4fb;
+  color: #5a5f7d;
+}
+
+/* ------------------------------------------------------------------ */
+/* Buttons                                                             */
+/* ------------------------------------------------------------------ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 9px 16px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  line-height: 1.2;
+  white-space: nowrap;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 140ms ease, color 140ms ease, border-color 140ms ease,
+    transform 120ms cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 140ms ease, opacity 140ms ease;
+}
+.btn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.btn:disabled,
+.btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.btn:focus-visible {
+  outline: 2px solid #5b56e8;
+  outline-offset: 2px;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #6a64f0, #5b56e8);
+  color: #ffffff;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.16) inset, 0 6px 14px -6px rgba(91, 86, 232, 0.55);
+}
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(180deg, #6058e0, #4944c9);
+}
+
+.btn-secondary {
+  background: #ffffff;
+  color: #181b2c;
+  border-color: #d3d5e6;
+}
+.btn-secondary:hover:not(:disabled) {
+  background: #f4f4fb;
+  border-color: #a7abc4;
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #3a3f5c;
+}
+.btn-ghost:hover:not(:disabled) {
+  background: #e7e8f3;
+  color: #0d0f1a;
+}
+
+.btn-danger {
+  background: #ffffff;
+  color: #c22b3a;
+  border-color: #f0b8bd;
+}
+.btn-danger:hover:not(:disabled) {
+  background: #fbe9ea;
+  border-color: #c22b3a;
+}
+
+/* ------------------------------------------------------------------ */
+/* Card — quiet surface, one deliberate accent lives in the buttons   */
+/* ------------------------------------------------------------------ */
+.card {
+  background: #ffffff;
+  border: 1px solid #e7e8f3;
+  border-radius: 14px;
+  box-shadow: 0 1px 2px rgba(13, 15, 26, 0.05), 0 1px 1px rgba(13, 15, 26, 0.03);
+}
+
+.card-divider {
+  border-top: 1px solid #e7e8f3;
+}
+
+/* ------------------------------------------------------------------ */
+/* Step / section heading                                             */
+/* ------------------------------------------------------------------ */
+.eyebrow {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #5a5f7d;
+}
+
+/* ------------------------------------------------------------------ */
+/* Commit-graph connector — links the step markers like a git history  */
+/* line. This is the one signature structural device in the layout.   */
+/* ------------------------------------------------------------------ */
+.rail-line {
+  position: absolute;
+  top: 100%;
+  inset-inline-start: 11px;
+  width: 2px;
+  height: 40px;
+  background: #d3d5e6;
+}
+.rail-line.rail-line-done {
+  background: #5b56e8;
+}
+li:last-child .rail-line {
+  display: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* File tree                                                           */
+/* ------------------------------------------------------------------ */
+.tree-row {
+  display: grid;
+  grid-template-columns: 20px 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12.5px;
+  color: #181b2c;
+  direction: ltr;
+  text-align: left;
+}
+.tree-row:hover {
+  background: #f4f4fb;
+}
+
+/* ------------------------------------------------------------------ */
+/* Status pills                                                        */
+/* ------------------------------------------------------------------ */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  border: 1px solid #e7e8f3;
+  background: #f4f4fb;
+  color: #3a3f5c;
+}
+.pill-success {
+  background: #e5f7ef;
+  color: #0f8a5f;
+  border-color: #bfe9d5;
+}
+.pill-danger {
+  background: #fbe9ea;
+  color: #c22b3a;
+  border-color: #f0b8bd;
+}
+.pill-warn {
+  background: #fdf1de;
+  color: #a8620a;
+  border-color: #f2d69f;
+}
+.pill-accent {
+  background: #edecfd;
+  color: #4944c9;
+  border-color: #cecbf8;
+}
+
+/* ------------------------------------------------------------------ */
+/* Spinner                                                             */
+/* ------------------------------------------------------------------ */
+.spinner {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2px solid #d3d5e6;
+  border-top-color: #5b56e8;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Reduced motion                                                     */
+/* ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.001ms !important;
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+  .press:active:not(:disabled):not([aria-disabled="true"]) {
+    transform: none;
+  }
+  .btn:active:not(:disabled) {
+    transform: none;
+  }
+}
